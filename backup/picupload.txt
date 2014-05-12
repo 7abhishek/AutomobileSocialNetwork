@@ -1,0 +1,36 @@
+$id="abhishek.uvce@gmail.com";
+
+if(isset($_REQUEST['fsize']))
+{
+	$fsize=$_REQUEST['fsize'];
+	$path=$_REQUEST['fpath'];
+	$name=$_REQUEST['fname'];
+	echo $path." ".$fsize."\n";
+	$cont=file_get_contents($path);
+	$cont=addslashes($cont);
+	echo $cont;
+	$con=mysql_connect("localhost","root","") or die(mysql_error());
+	mysql_select_db("auto");
+	$rwes=mysql_query("insert into data2 (d_email,image) 				   values('abhishek.uvce@gmail.com','$cont') ")or die(mysql_error());
+	
+	$con=mysql_connect("localhost","root","") or die(mysql_error());
+	mysql_select_db("auto");
+$res=mysql_query("select image from data2 where d_email='$id'") or die(mysql_error());
+$row=mysql_fetch_array($res) or die(mysql_error());
+	
+mysql_close($con);
+	echo "<!DOCTYPE html><html><body><img src='data:image/jpeg;base64,".base64_encode($row['image'])."'></body></html>";
+}
+
+else
+{
+	$con=mysql_connect("localhost","root","") or die(mysql_error());
+	mysql_select_db("auto");
+$res=mysql_query("select image from data2 where d_email='$id'") or die(mysql_error());
+$row=mysql_fetch_array($res) or die(mysql_error());
+
+	echo "<!DOCTYPE html><html><body><img src='data:image/jpeg;base64,".base64_encode($row['image'])."'></body></html>";
+	
+	mysql_close($con);
+}
+		
